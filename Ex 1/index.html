@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web Stock Maintenance System">
+    <title>Web Stock Maintenance</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>Web Stock Maintenance</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#product-table">Products</a></li>
+                <li><a href="#contact-form">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+
+    <main>
+        <section>
+            <h2>Welcome to Stock Maintenance System</h2>
+            <p>This platform helps you manage product details, purchases, sales, and stock in an organized way.</p>
+            <img src="C:\Sadavada\SEM 6\Web Programming Lab\Ex 1\assets\images\image.png" alt="Stock Management" width="300">
+        </section>
+
+        <section id="product-table">
+            <h3>Product Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Opening Stock</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Notebook</td>
+                        <td>50</td>
+                        <td>$5</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Pencil</td>
+                        <td>100</td>
+                        <td>$1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="contact-form">
+            <h3>Contact Us</h3>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <iframe src="about.html" title="About Page" width="100%" height="300"></iframe>
+    </main>
+
+    <footer>
+        <p>© 2025 Web Stock Maintenance. All rights reserved.</p>
+    </footer>
+</body>
+</html>
