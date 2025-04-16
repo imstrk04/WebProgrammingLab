@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flight Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f7f7f7;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 350px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label, select {
+      display: block;
+      margin-top: 15px;
+    }
+    .hidden {
+      display: none;
+    }
+    #result {
+      margin-top: 20px;
+      background: #e0ffe0;
+      padding: 10px;
+      border: 1px solid #00c800;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Flight Booking Form</h2>
+
+  <form id="bookingForm">
+    <label for="city">Select City:</label>
+    <select id="city" name="city" required>
+      <option value="">-- Choose City --</option>
+      <option value="chennai">Chennai - ₹3000</option>
+      <option value="mumbai">Mumbai - ₹4500</option>
+      <option value="delhi">Delhi - ₹5000</option>
+      <option value="bangalore">Bangalore - ₹4000</option>
+    </select>
+
+    <label for="class">Select Class:</label>
+    <select id="class" name="class" required>
+      <option value="">-- Choose Class --</option>
+      <option value="economy">Economy</option>
+      <option value="business">Business (+₹2000)</option>
+      <option value="first">First Class (+₹3000)</option>
+    </select>
+
+    <div id="seatDiv" class="hidden">
+      <label for="seat">Seat Preference:</label>
+      <select id="seat" name="seat">
+        <option value="window">Window</option>
+        <option value="aisle">Aisle</option>
+        <option value="middle">Middle</option>
+      </select>
+    </div>
+
+    <button type="submit" style="margin-top: 15px;">Book Ticket</button>
+  </form>
+
+  <div id="result" class="hidden"></div>
+
+  <script>
+    const cityPrices = {
+      chennai: 3000,
+      mumbai: 4500,
+      delhi: 5000,
+      bangalore: 4000
+    };
+
+    const classPrices = {
+      economy: 0,
+      business: 2000,
+      first: 3000
+    };
+
+    const form = document.getElementById('bookingForm');
+    const classSelect = document.getElementById('class');
+    const seatDiv = document.getElementById('seatDiv');
+    const resultDiv = document.getElementById('result');
+
+    classSelect.addEventListener('change', () => {
+      const selectedClass = classSelect.value;
+      seatDiv.classList.toggle('hidden', selectedClass === 'economy' || selectedClass === '');
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const city = document.getElementById('city').value;
+      const selectedClass = document.getElementById('class').value;
+      const seat = document.getElementById('seat').value;
+
+      if (!city || !selectedClass) {
+        alert('Please select both city and class.');
+        return;
+      }
+
+      // Simulating backend with AJAX-like processing
+      setTimeout(() => {
+        const baseFare = cityPrices[city];
+        const classFare = classPrices[selectedClass];
+        const totalFare = baseFare + classFare;
+
+        let breakdown = `
+          <strong>Booking Confirmed!</strong><br>
+          City Fare: ₹${baseFare}<br>
+          Class (${selectedClass}): ₹${classFare}<br>
+        `;
+
+        if (selectedClass !== 'economy') {
+          breakdown += `Seat Preference: ${seat}<br>`;
+        }
+
+        breakdown += `<strong>Total Fare: ₹${totalFare}</strong>`;
+
+        resultDiv.innerHTML = breakdown;
+        resultDiv.classList.remove('hidden');
+      }, 500);
+    });
+  </script>
+
+</body>
+</html>

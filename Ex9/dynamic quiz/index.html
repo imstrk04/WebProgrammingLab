@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Quiz App</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    .question {
+      margin-bottom: 15px;
+    }
+    .question h3 {
+      margin: 0 0 5px;
+    }
+    #submitBtn {
+      margin-top: 20px;
+    }
+    #score {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>JavaScript Quiz</h2>
+
+  <form id="quizForm">
+    <!-- Questions will be inserted here by JS -->
+  </form>
+
+  <button id="submitBtn" onclick="submitQuiz()">Submit Quiz</button>
+
+  <div id="score"></div>
+
+  <script src="quiz.js"></script>
+</body>
+</html>

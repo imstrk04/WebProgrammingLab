@@ -1,0 +1,134 @@
+for scaffold:
+rails generate scaffold ModelName field1:type field2:type field3:type
+
+--------------------------------------------------------------------------
+
+for api ruby on rails:
+step 1: 
+rails new currency_converter --api, cd currency_converter
+
+step 2: 
+rails generate controller CurrencyConverter (app/controllers/currency_converter_controller.rb)
+
+step 3: 
+open the above currency_converter.rb and put this:
+# app/controllers/currency_converter_controller.rb
+class CurrencyConverterController < ApplicationController
+  # POST /convert
+  def convert
+    amount = params[:amount].to_f
+    from_currency = params[:from_currency].upcase
+    to_currency = params[:to_currency].upcase
+
+    # Fetch exchange rates (either static or from an external API)
+    exchange_rate = get_exchange_rate(from_currency, to_currency)
+
+    if exchange_rate
+      converted_amount = amount * exchange_rate
+      render json: { converted_amount: converted_amount, from_currency: from_currency, to_currency: to_currency }, status: :ok
+    else
+      render json: { error: 'Invalid currency pair or exchange rate not found' }, status: :bad_request
+    end
+  end
+
+  private
+
+  # You can replace this method with a call to an external API (like ExchangeRate-API)
+  def get_exchange_rate(from_currency, to_currency)
+    exchange_rates = {
+      'USD' => { 'EUR' => 0.85, 'GBP' => 0.75 },
+      'EUR' => { 'USD' => 1.18, 'GBP' => 0.88 },
+      'GBP' => { 'USD' => 1.33, 'EUR' => 1.14 }
+    }
+    
+    # Return the exchange rate for the given pair (from_currency to to_currency)
+    exchange_rates[from_currency]&.fetch(to_currency, nil)
+  end
+end
+
+step 4:
+We need to define the route for the convert endpoint.
+
+Edit the config/routes.rb file:
+# config/routes.rb
+Rails.application.routes.draw do
+  post '/convert', to: 'currency_converter#convert'
+end
+
+--------------------------------------------------------------------------
+
+Bookapp RESTFUL API:
+
+Step1:
+rails new bookstore_api --api
+cd bookstore_api
+
+Step2:
+rails generate model Book title:string author:string price:decimal published_date:date
+rails db:migrate
+
+Step3:
+rails generate controller Books
+
+Step4:
+Edit app/controllers/books_controller.rb:
+
+class BooksController < ApplicationController
+  before_action :set_book, only: [:show, :update, :destroy]
+
+  # GET /books
+  def index
+    @books = Book.all
+    render json: @books
+  end
+
+  # GET /books/:id
+  def show
+    render json: @book
+  end
+
+  # POST /books
+  def create
+    @book = Book.new(book_params)
+    if @book.save
+      render json: @book, status: :created
+    else
+      render json: @book.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /books/:id
+  def update
+    if @book.update(book_params)
+      render json: @book
+    else
+      render json: @book.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /books/:id
+  def destroy
+    @book.destroy
+    head :no_content
+  end
+
+  private
+
+  def set_book
+    @book = Book.find_by(id: params[:id])
+    render json: { error: 'Book not found' }, status: :not_found unless @book
+  end
+
+  def book_params
+    params.require(:book).permit(:title, :author, :price, :published_date)
+  end
+end
+
+Step 5:
+in config/routes.rb:
+Rails.application.routes.draw do
+  resources :books
+end
+
+Step6:
+rails server
